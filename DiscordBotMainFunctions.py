@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 Name: Password Manager
 Made By: Mads Hermansen
@@ -7,11 +9,15 @@ Date: 03/06/2019
 
 from datetime import datetime
 import discord
-import random, time
-import os, errno, requests, json
+import random
+import time
+import os
+import errno
+import json
+import requests
 
 # Settings
-bot_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+bot_token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 champs = [x.strip() for x in open("Champlist.txt").readlines()]
 createlog = False
 logfilename = "Chatlog.txt"
@@ -89,6 +95,7 @@ async def on_ready():
     print("Time taken: " + str(time.time() - start))
     print()
 
+
 def start():
     global start
     print("Initializing bot...")
@@ -96,3 +103,4 @@ def start():
     client.run(bot_token)
 
 start()
+
