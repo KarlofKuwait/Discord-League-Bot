@@ -45,7 +45,14 @@ async def on_message(message):
     # Respond to !Info need Riot API
     if message.content.startswith("!info") or message.content.startswith("!Info"):
         await channel.send("Currently this command doesnt work, instead try !Champ")
-
+    # Review the sent message (Will create log?)
+    now = datetime.now()
+    dt_string = now.strftime("[%d/%m/%Y:%H/%M/%S]")
+    log = ("\n" + dt_string + str(author) + " sent \"" + str(message.content) + "\"")
+    if createlog == True:
+        # Create log
+        pass
+    print(log)
 
 @client.event
 async def on_ready():
