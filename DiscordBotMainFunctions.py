@@ -4,7 +4,6 @@ import requests, json
 
 # Bot Info
 bot_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-messages = ["Hello", "Oh hey there ;)", "Whats up", "Yo", "Waddup"]
 champs = [x.strip() for x in open("Champlist.txt").readlines()]
 # End
 
