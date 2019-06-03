@@ -1,11 +1,20 @@
+"""
+Name: Password Manager
+Made By: Mads Hermansen
+Github: https://github.com/KarlofKuwait
+Date: 03/06/2019
+"""
+from datetime import datetime
 import discord
 import random, time
-import requests, json
+import os, errno, requests, json
 
-# Bot Info
+# Settings
 bot_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 champs = [x.strip() for x in open("Champlist.txt").readlines()]
-# End
+createlog = False
+logfilename = "Chatlog.txt"
+# End Settings
 
 client = discord.Client()
 
@@ -47,11 +56,22 @@ async def on_message(message):
     # Review the sent message (Will create log?)
     now = datetime.now()
     dt_string = now.strftime("[%d/%m/%Y:%H/%M/%S]")
-    log = ("\n" + dt_string + str(author) + " sent \"" + str(message.content) + "\"")
+    log = (str(channel) + dt_string + str(author) + " sent \"" + str(message.content) + "\"")
     if createlog == True:
         # Create log
-        pass
+        # Check if file exists and writes
+        try:
+            prevlog = [x.strip() for x in open(logfilename).readlines()]
+
+        except:
+            prevlog = ""
+        with open(logfilename, "w") as f:
+            for info in prevlog:
+                f.write(str(info) + "\n")
+            f.write(log)
+            f.close()
     print(log)
+
 
 @client.event
 async def on_ready():
