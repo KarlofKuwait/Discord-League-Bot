@@ -1,23 +1,22 @@
-#!/usr/bin/env python3
-
 """
 Name: Password Manager
 Made By: Mads Hermansen
 Github: https://github.com/KarlofKuwait
-Date: 03/06/2019
+Date: 04/06/2019
 """
 
 from datetime import datetime
-import discord
 import random
 import time
 import os
 import errno
 import json
 import requests
+import discord
 
 # Settings
-bot_token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+bot_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+riot_api_key = ""
 champs = [x.strip() for x in open("Champlist.txt").readlines()]
 createlog = False
 logfilename = "Chatlog.txt"
@@ -25,6 +24,8 @@ logfilename = "Chatlog.txt"
 
 # Messages
 role_error = "Please specify the role, examples are \n- all \n- top \n- jng \n- mid \n- adc \n- sup"
+custom_message = "hehe"
+custom_message_response = "oh you are an amazing person "
 # End Messages
 
 client = discord.Client()
@@ -38,9 +39,9 @@ async def on_message(message):
     if author == client.user:
         return
     # Respond to message with message
-    # Respond to hehe
-    if message.content.startswith("hehe") or message.content.startswith("Hehe"):
-        await channel.send("oh you are an amazing person " + str(author))
+    # Respond to custom_message
+    if message.content.startswith(custom_message):
+        await channel.send(custom_message_response + str(author))
 
     # Respond to !Help
     if message.content.startswith("!help") or message.content.startswith("!Help"):
@@ -95,7 +96,6 @@ async def on_ready():
     print("Time taken: " + str(time.time() - start))
     print()
 
-
 def start():
     global start
     print("Initializing bot...")
@@ -103,4 +103,3 @@ def start():
     client.run(bot_token)
 
 start()
-
