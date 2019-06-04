@@ -16,8 +16,8 @@ import discord
 
 # Settings
 bot_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-riot_api_key = ""
-champs = [x.strip() for x in open("Champlist.txt").readlines()]
+riot_api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+allchamps = [x.strip() for x in open("Champlist.txt").readlines()]
 createlog = False
 logfilename = "Chatlog.txt"
 # End Settings
@@ -29,6 +29,16 @@ custom_message_response = "oh you are an amazing person "
 # End Messages
 
 client = discord.Client()
+
+def requestSummonerData(summonerName, riot_api_key):
+    URL = "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonerName + "?api_key=" + riot_api_key
+    response = requests.get(URL)
+    return response.json()
+
+def requestSummonerRank(summonerName, riot_api_key):
+    URL = "https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerName + "?api_key=" + riot_api_key
+    response = requests.get(URL)
+    return response.json()
 
 @client.event
 async def on_message(message):
@@ -56,7 +66,17 @@ async def on_message(message):
             await channel.send(role_error)
         try:
             if usermessage[1] == "all" or usermessage[1] == "All":
-                await channel.send(random.choice(champs))
+                await channel.send(random.choice(allchamps))
+            elif usermessage[1] == "top" or usermessage[1] == "Top":
+                await channel.send("Top Champion")
+            elif usermessage[1] == "jng" or usermessage[1] == "Jng":
+                await channel.send("Jungle Champion")
+            elif usermessage[1] == "mid" or usermessage[1] == "Mid":
+                await channel.send("Mid Champion")
+            elif usermessage[1] == "adc" or usermessage[1] == "Adc":
+                await channel.send("Adc Champion")
+            elif usermessage[1] == "sup" or usermessage[1] == "Sup":
+                await channel.send("Support Champion")
             else:
                 await channel.send(role_error)
         except IndexError:
@@ -64,7 +84,25 @@ async def on_message(message):
 
     # Respond to !Info need Riot API
     if message.content.startswith("!info") or message.content.startswith("!Info"):
-        await channel.send("Currently this command doesnt work, instead try !Champ")
+        if len(usermessage) > 2:
+            await channel.send("Please only have the summonername")
+        # Retrieve data about account
+        try:
+            summonerdata = requestSummonerData(usermessage[1], riot_api_key)
+            summonerid = (summonerdata.get("id"))
+            summonerrank = requestSummonerRank(summonerid, riot_api_key)
+            for x in summonerrank:
+                if x.get("queueType") == "RANKED_SOLO_5x5":
+                    info_bot_message = "Ranked Solo: \n" + x.get("tier") + " " + x.get(
+                        "rank") + "\n" + str(x.get("leaguePoints") +" LP")
+            for x in summonerrank:
+                if x.get("queueType") == "RANKED_FLEX_SR":
+                    info_bot_message += "\n\nRanked Flex: \n" + x.get("tier") + " " + x.get(
+                        "rank") + "\n" + str(x.get("leaguePoints") +" LP")
+        except TypeError:
+            info_bot_message = ("Account not found, \nplease try again")
+        await channel.send(info_bot_message)
+
 
     # Review the sent message (Optional log)
     now = datetime.now()
