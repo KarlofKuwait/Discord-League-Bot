@@ -94,15 +94,15 @@ async def on_message(message):
             for x in summonerrank:
                 if x.get("queueType") == "RANKED_SOLO_5x5":
                     info_bot_message = "Ranked Solo: \n" + x.get("tier") + " " + x.get(
-                        "rank") + "\n" + str(x.get("leaguePoints") +" LP")
+                        "rank") + "\n" + str(x.get("leaguePoints")) +" LP"
             for x in summonerrank:
                 if x.get("queueType") == "RANKED_FLEX_SR":
                     info_bot_message += "\n\nRanked Flex: \n" + x.get("tier") + " " + x.get(
-                        "rank") + "\n" + str(x.get("leaguePoints") +" LP")
+                        "rank") + "\n" + str(x.get("leaguePoints")) +" LP"
+
         except TypeError:
             info_bot_message = ("Account not found, \nplease try again")
         await channel.send(info_bot_message)
-
 
     # Review the sent message (Optional log)
     now = datetime.now()
