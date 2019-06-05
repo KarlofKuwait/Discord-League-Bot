@@ -17,15 +17,54 @@ import discord
 # Settings
 bot_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 riot_api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-allchamps = [x.strip() for x in open("Champlist.txt").readlines()]
 createlog = False
 logfilename = "Chatlog.txt"
+
+# Champion settings
+allchamps = [x.strip() for x in open("Champlist.txt").readlines()]
+topchamps = ["Aatrox", "Akali", "Camille", "Cho'Gath", "Darius",
+             "Dr. Mundo", "Fiora", "Gangplank", "Garen", "Gnar",
+             "Illoai", "Irelia", "Jax", "Jayce", "Kayle",
+             "Kennen", "Kled", "Malphite", "Maokai", "Mordekaiser",
+             "Nasus", "Neeko", "Olaf", "Ornn", "Pantheon",
+             "Poppy", "Pyke", "Quinn", "Renekton", "Rengar",
+             "Riven", "Rumble", "Ryze", "Shen", "Singed",
+             "Sion", "Sylas", "Tahm Kench", "Teemo", "Tryndamere",
+             "Urgot", "Vayne", "Vladimir", "Volibear", "Wukong",
+             "Yasuo", "Yorick"]
+jngchamps = ["Aatrox", "Ammumu", "Elise", "Evelynn", "Fiddlesticks",
+             "Gragas", "Graves", "Hecarim", "Ivern", "Jarvan IV",
+             "Jax", "Karthus", "Kayn", "Kha'Zix", "Kindred",
+             "Lee Sin", "Master Yi", "Nidalee", "Nocturne", "Nunu & Willump"
+             "Pantheon", "Rammus", "Rek'Sai", "Rengar", "Sejuani",
+             "Shaco", "Shyvana", "Skarner", "Trundle", "Twitch",
+             "Udyr", "Vi", "Volibear", "Warwick", "Wukong",
+             "Xin Zhao", "Zac"]
+midchamps = ["Aatrox", "Ahri", "Akali", "Anivia", "Annie",
+             "Azir", "Cassiopeia", "Corki", "Diana", "Ekko",
+             "Fizz", "Irelia", "Kassadin", "Katerina", "Leblanc",
+             "Lissandra", "Lux", "Malzahar", "Morgana", "Neeko",
+             "Orianna", "Pyke", "Ryze", "Swain", "Sylas",
+             "Syndra", "Taliyah", "Talon", "Twisted Fate", "Veigar",
+             "Vel'Koz", "Viktor", "Vladimir", "Xerath", "Yasuo",
+             "Zed", "Ziggs", "Zilean", "Zoe"]
+adcchamps = ["Ashe", "Caitlyn", "Draven", "Ezreal", "Jhin",
+             "Jinx", "Kai'Sa", "Kalista", "Kog'Maw", "Lucian",
+             "Miss Fortune", "Sivir", "Tristana", "Twitch", "Varus",
+             "Vayne", "Xayah"]
+supchamps = ["Alistar", "Bard", "Blitzcrank", "Brand", "Bruam",
+             "Fiddlesticks", "Galio", "Janna", "Karma", "Leona",
+             "Lulu", "Lux", "Morgana", "Nami", "Nautilus",
+             "Pyke", "Rakan", "Sona", "Soraka", "Taric",
+             "Thresh", "Vel'koz", "Xerath", "Yummi", "Zilean",
+             "Zyra"
+             ]
 # End Settings
 
 # Messages
 role_error = "Please specify the role, examples are \n- all \n- top \n- jng \n- mid \n- adc \n- sup"
-custom_message = "hehe"
-custom_message_response = "oh you are an amazing person "
+custom_message = "whats ligma"
+custom_message_response = "ligma balls "
 # End Messages
 
 client = discord.Client()
@@ -49,15 +88,62 @@ async def on_message(message):
     if author == client.user:
         return
     # Respond to message with message
-    # Respond to custom_message
+    # Respond to custom messages
     if message.content.startswith(custom_message):
         await channel.send(custom_message_response + str(author))
+    if message.content.startswith("no u"):
+        await channel.send("Uno reverse card")
 
     # Respond to !Help
     if message.content.startswith("!help") or message.content.startswith("!Help"):
         if len(usermessage) > 2:
             await channel.send("Please specify a working command")
-        else:
+        try:
+            if usermessage[1] == "help" or usermessage[1] == "Help":
+                await channel.send("""Help is used to find information about commands
+                
+Syntax:
+!help
+!help (command name)
+
+Uses:
+help - lists all available commands
+(command name) - lists information about the command""")
+            elif usermessage[1] == "champ" or usermessage[1] == "Champ":
+                await channel.send("""Use Champ to randomize a champ or add champs
+to your list to randomize
+
+Syntax:
+!champ
+!champ (role)
+!champ add (champion)
+!champ remove (champion)
+!champ list
+!champ me
+
+Uses:
+champ - randomizes a champion from a role
+add - adds a champion to your list of champions
+remove - removes a champion from your list of champions
+list - lists all the champions in the your list
+me - randomizes a champion from your list of champions""")
+            elif usermessage[1] == "info" or usermessage[1] == "Info":
+                    await channel.send("""Use Champ to randomize a champ or add champs
+to your list to randomize
+
+Syntax:
+!info
+!info (summonername)
+!info mastery (summonername)
+
+Uses:
+info - gain information about riot servers
+info (summonername) - gain information about a summoner
+info mastery - gain information about someones mastery
+""")
+            else:
+                await channel.send("""Commands \n- Help \n- Champ \n- Info""")
+        except IndexError:
             await channel.send("""Commands \n- Help \n- Champ \n- Info""")
 
     # Respond to !Champ
@@ -68,15 +154,15 @@ async def on_message(message):
             if usermessage[1] == "all" or usermessage[1] == "All":
                 await channel.send(random.choice(allchamps))
             elif usermessage[1] == "top" or usermessage[1] == "Top":
-                await channel.send("Top Champion")
+                await channel.send(random.choice(topchamps))
             elif usermessage[1] == "jng" or usermessage[1] == "Jng":
-                await channel.send("Jungle Champion")
+                await channel.send(random.choice(jngchamps))
             elif usermessage[1] == "mid" or usermessage[1] == "Mid":
-                await channel.send("Mid Champion")
+                await channel.send(random.choice(midchamps))
             elif usermessage[1] == "adc" or usermessage[1] == "Adc":
-                await channel.send("Adc Champion")
+                await channel.send(random.choice(adcchamps))
             elif usermessage[1] == "sup" or usermessage[1] == "Sup":
-                await channel.send("Support Champion")
+                await channel.send(random.choice(supchamps))
             else:
                 await channel.send(role_error)
         except IndexError:
@@ -91,9 +177,11 @@ async def on_message(message):
             summonerdata = requestSummonerData(usermessage[1], riot_api_key)
             summonerid = (summonerdata.get("id"))
             summonerrank = requestSummonerRank(summonerid, riot_api_key)
+            # Create Message
+            info_bot_message = usermessage[1] + "\n"
             for x in summonerrank:
                 if x.get("queueType") == "RANKED_SOLO_5x5":
-                    info_bot_message = "Ranked Solo: \n" + x.get("tier") + " " + x.get(
+                    info_bot_message += "Ranked Solo: \n" + x.get("tier") + " " + x.get(
                         "rank") + "\n" + str(x.get("leaguePoints")) +" LP"
             for x in summonerrank:
                 if x.get("queueType") == "RANKED_FLEX_SR":
@@ -102,7 +190,9 @@ async def on_message(message):
 
         except TypeError:
             info_bot_message = ("Account not found, \nplease try again")
+        # Say message
         await channel.send(info_bot_message)
+
 
     # Review the sent message (Optional log)
     now = datetime.now()
