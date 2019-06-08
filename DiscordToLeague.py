@@ -15,8 +15,10 @@ import discord
 import discord_bot_functions as dbrf
 
 # Settings
-bot_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-riot_api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+bot_token = 'NTgzNzM1NzIzMzg4MDQzMjY5.XPgo_w.BYQQvmlIeT54gd4IyUozub6Do7w'
+#bot_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
+riot_api_key = "RGAPI-7138e4f7-ce39-43b4-af5a-0b01b911113c"
+#riot_api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 createlog = False
 logfilename = "Chatlog.txt"
 Game = True
@@ -158,7 +160,7 @@ info mastery - gain information about someones mastery
 - Help
 - Info
 - Champs
-- Typer""")
+- Game""")
 
     # Respond to !Champ
     if message.content.startswith("!champ") or message.content.startswith("!Champ"):
@@ -312,12 +314,13 @@ https://pastebin.com/SfjEx9Dv""")
         starttimer = time.time()
         word = random.choice(list(Typechallenge))
         await channel.send("Type: **" + word + "**")
-    if word == None:
+    if not("word" in globals()):
         word = ""
-        starttimer = ""
+        starttimer = 0
     if message.content.startswith(word) and starttimer != 0 and Game:
         await channel.send("You typed **" + word + "** in **" + str(time.time() - starttimer) + "** seconds"
 + "\n**" + word + ":** " + Typechallenge[word])
+        starttimer = 0
     # Review the sent message (Optional log)
     now = datetime.now()
     dt_string = now.strftime("[%d/%m/%Y %H:%M:%S]")
