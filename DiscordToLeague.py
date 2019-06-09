@@ -59,12 +59,14 @@ def requestSummonerData(summonerName, riot_api_key):
     response = requests.get(URL)
     return response.json()
 
+  
 def requestSummonerRank(summonerName, riot_api_key):
     URL = "https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + summonerName + \
           "?api_key=" + riot_api_key
     response = requests.get(URL)
     return response.json()
 
+  
 def requestSummonerMastery(summonerName, riot_api_key):
     URL = "https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" + summonerName + \
           "?api_key=" + riot_api_key
