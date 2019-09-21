@@ -1,0 +1,7 @@
+datetime
+random
+time
+os
+errno
+requests
+discord
