@@ -17,7 +17,9 @@ import discord_bot_functions as dbrf
 # Settings
 #bot_token = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 #riot_api_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-createlog = False
+
+
+createlog = False #Only tested on windows
 logfilename = "Chatlog.txt"
 Game = True
 
